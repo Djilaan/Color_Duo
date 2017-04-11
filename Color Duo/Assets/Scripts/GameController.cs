@@ -36,9 +36,13 @@ public class GameController : MonoBehaviour {
     public Text scoreLabel;
     public int score;
 
+    public bool play;
+
     // Use this for initialization
     void Start ()
     {
+        play = true;
+        
         correct_counter = 0;
 
         generateColorsLeft();
@@ -73,22 +77,29 @@ public class GameController : MonoBehaviour {
     // Update is called once per frame
     void Update()
     {
-        //timebar start
-        if (timeLeft >= 0)
+        if (play)
         {
-            timebar.transform.Translate( Vector3.down * (10.0f + initialYpos * 2.0f) * (Time.deltaTime / maxTime) );
+            //timebar start
+            if (timeLeft >= 0)
+            {
+                timebar.transform.Translate(Vector3.down * (10.0f + initialYpos * 2.0f) * (Time.deltaTime / maxTime));
+            }
+            else
+            {
+                timeLeft = 0;
+            }
+
+            timerLabel.text = timeLeft.ToString();
+
+            //Debug.Log( gameObject.transform.position.y+" "+timeLeft );
+
+            timeLeft = timeLeft - Time.deltaTime;
+            if(timeLeft<=0)
+            {
+                play = false;
+            }
+            //time bar end
         }
-        else
-        {
-            timeLeft = 0;
-        }
-
-        timerLabel.text = timeLeft.ToString();
-
-        //Debug.Log( gameObject.transform.position.y+" "+timeLeft );
-
-        timeLeft = timeLeft - Time.deltaTime;
-        //time bar end
         
     }
 
